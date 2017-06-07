@@ -1,6 +1,7 @@
 import json
 import random
 import string
+import sys
 from datetime import datetime
 from functools import partial
 from pathlib import Path
@@ -107,7 +108,10 @@ def main():
     else:
         with json_path.open() as f:
             cases = json.load(f)
-    tests = [TestTrafaret, TestPydantic]
+    if 'pydantic-only' in sys.argv:
+        tests = [TestPydantic]
+    else:
+        tests = [TestTrafaret, TestPydantic]
     for test_class in tests:
         times = []
         p = test_class.package
